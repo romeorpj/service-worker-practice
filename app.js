@@ -1,7 +1,7 @@
 // Always start by  making sure service workers are supported
 // Alternatively you can do if navigator.serviceworker
 
-/* ---------------- STEP ONE(1): Register the service worker ---------------- */
+/* ---------------- STEP ONE(1): REGISTER THE SERVICE WORKER ---------------- */
 
 // STEP ONE(1)
 if ("serviceWorker" in navigator) {

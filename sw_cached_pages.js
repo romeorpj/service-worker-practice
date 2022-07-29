@@ -1,9 +1,23 @@
-// The lifecycle of a service worker is as follows:
-// 1. The service worker is registered
-// 2. The service worker is installed
-// 3. The service worker is activated
+/* -------------------------------------------------------------------------- */
+/*                      SERVICE WORKER LIFECYCLE & EVENTS                     */
+/* -------------------------------------------------------------------------- */
 
-// This is the service worker with the "cache" functionality
+// !LIFECYCLE
+// 1. Installing - start of registration - setup offline cache resources
+// 2. Installed - setup complete, waiting for other SWs to close
+// 3. Activating - Remove old caches
+// 4. Activated - The SW can handle fetch events
+// 5. Redundant - The SW is being replaced by a new one
+
+// !EVENTS:
+// install - when the service worker is first installed
+// activate - when the service worker is first activated
+// message - when a message is sent to the service worker
+// fetch - when a fetch event is fired
+// sync - when a sync event is fired
+// push - when a push event is fired
+
+// !SERVICE WORKERS
 // It is used to cache the pages that are loaded by the app
 // So if the app is offline, the app will load the cached pages and still work -- similar to mobile apps.
 
@@ -16,7 +30,7 @@ const cacheName = "v2";
 // If you have a lot of files, you may want to use the "cacheAll" method.
 const cacheAssets = ["/", "about.html", "style.css", "app.js"];
 
-/* ----------------- STEP TWO(2): Install the service worker ---------------- */
+/* ----------------- STEP TWO(2): INSTALL THE SERVICE WORKER ---------------- */
 
 
 // Call Install EventListener
@@ -57,4 +71,12 @@ self.addEventListener("activate", (event) => {
             );
         })
     )
+});
+
+
+/* ------------------------ Call Fetch EventListener ------------------------ */
+// This is how you serve up the cached pages
+self.addEventListener("fetch", (event) => {
+    console.log("Service Worker: Fetching");
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
 });
