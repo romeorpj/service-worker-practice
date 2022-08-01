@@ -40,3 +40,36 @@ if you're updting the database, change the version number.
 ## indexedDB.open
 - running indexedDB.open resturns a response that can be an error or success. run an event handler to handle both cases.
 
+## Event Handlers
+
+request.onupgradeneeded = (event)=>{
+    <!-- !This event fires if this is the first time opening the database -->
+    <!-- !Or if its a new version of the database -->
+    <!-- This is where we update/add/delete our database tables stores(schema)-->
+
+    <!-- ? Grab the database -->
+    db = request.result;
+
+    <!-- ? Create an object store -->
+<!-- db.createObjectStore("StoreName",dataKey) -->
+<!-- ! use key from data -> {keyPath: "unique key in data"} -->
+<!-- ! auto increment key -> {autoIncrement: true} -->
+    store = db.createObjectStore("StoreName", {keyPth: "qID"})
+
+    <!-- ?Create index -->
+    Index = store.createIndex(“indexName”, “propetyName its based on”, {options})
+}
+
+
+
+
+request.onerror = (event) => {
+        console.log(`An error occurred: ${event}`);
+}
+    
+request.onsuccess = (event) => {
+    console.log(`Database open was a success: ${event}`);
+    <!-- set db to the result of the open call -->
+    <!-- Technically this is the conception of the database -->
+    db = request.result;
+};
